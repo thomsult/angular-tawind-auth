@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   email?: string;
   constructor() { }
-  forgetPassword(email: string, code: string) {
+  async forgetPassword(email: string, code: string):Promise<Boolean> {
     console.log(email, code);
     return true;
   }
@@ -14,20 +14,20 @@ export class AuthService {
     this.email = email;
     return true;
   }
-  resetPassword(data: any) {
+  async resetPassword(data: any):Promise<Boolean> {
     console.log(data);
     return true;
   }
   //
-  login(data: any) {
+  async login(data: any):Promise<Boolean> {
     console.log(data);
     return true;
   }
-  logout() {
+  async logout():Promise<Boolean> {
     return true;
   }
   //
-  signUp(data: any) {
+  async signUp(data: any):Promise<Boolean> {
     console.log(data);
     return true;
   }

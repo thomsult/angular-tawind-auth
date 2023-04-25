@@ -59,11 +59,13 @@ export class ResetComponent {
     if (this.form.valid && this.email) {
       const code = Object.values(this.form.value).join('');
       console.log(code, this.email);
-      if (this.authService.forgetPassword(this.email, code)) {
-        this.emailVerified = true;
-        this.finalForm.controls['email'].setValue(this.email);
-      }
-    }
+      this.authService.forgetPassword(this.email, code).then((res) => {
+        if (res) {
+          this.emailVerified = true;
+          this.finalForm.controls['email'].setValue(this.email);
+        }
+      });
+    } 
   }
   onFinalSubmit() {
     if (this.finalForm.valid) {
