@@ -29,7 +29,7 @@
   <div class="flex justify-center w-full pt-4">
     <a
       href="#"
-      class="text-white w-full bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center justify-center inline-flex items-center dark:focus:ring-[#4285F4]/55 "
+      class="text-white w-full bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center justify-center inline-flex items-center dark:focus:ring-[#4285F4]/55"
     >
       <svg
         class="mr-2 -ml-1 w-4 h-4"
@@ -50,21 +50,44 @@
     </a>
   </div>
   <div
-  class="w-full flex  justify-center items-center gap-2 mt-6 h-[1px] bg-gray-200"
-  
-  ><p class="bg-white px-4 text-center text-gray-500">or</p></div>
-  <form action="#" class="mt-8 grid grid-cols-6 gap-6">
+    class="w-full flex justify-center items-center gap-2 mt-6 h-[1px] bg-gray-200"
+  >
+    <p class="bg-white px-4 text-center text-gray-500">or</p>
+  </div>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="mt-8 grid grid-cols-6 gap-6"
+  >
     <div class="col-span-6 sm:col-span-3">
       <label for="FirstName" class="block text-sm font-medium text-gray-700">
         First Name
       </label>
 
       <input
+        [ngClass]="{
+          'border-red-700':
+            form.get('first_name')?.invalid &&
+            form.get('first_name')?.value !== ''
+        }"
+        formControlName="first_name"
+        placeholder="John"
         type="text"
         id="FirstName"
         name="first_name"
         class="p-2 border-gray-200 border mt-1 w-full rounded-md text-sm text-gray-700 shadow-sm"
       />
+      <div
+      *ngIf="
+        form.get('first_name')?.invalid && form.get('first_name')?.value !== ''
+      "
+      class="col-span-6 text-sm gap-2 flex flex-col"
+    >
+      <p>
+        <span class="text-red-600 mr-1">*</span>
+        First Name is required, must be at least 3 characters long
+      </p>
+    </div>
     </div>
 
     <div class="col-span-6 sm:col-span-3">
@@ -73,11 +96,29 @@
       </label>
 
       <input
+        formControlName="last_name"
+        placeholder="Doe"
+        [ngClass]="{
+          'border-red-700':
+            form.get('last_name')?.invalid &&
+            form.get('last_name')?.value !== ''
+        }"
         type="text"
         id="LastName"
         name="last_name"
         class="p-2 mt-1 w-full rounded-md border border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
       />
+      <div
+        *ngIf="
+          form.get('last_name')?.invalid && form.get('last_name')?.value !== ''
+        "
+        class="col-span-6 text-sm gap-2 flex flex-col"
+      >
+        <p>
+          <span class="text-red-600 mr-1">*</span>
+          Last Name is required, must be at least 3 characters long
+        </p>
+      </div>
     </div>
 
     <div class="col-span-6">
@@ -86,11 +127,26 @@
       </label>
 
       <input
+        [ngClass]="{
+          'border-red-700':
+            form.get('email')?.invalid && form.get('email')?.value !== ''
+        }"
+        formControlName="email"
+        placeholder="exemple@exemple.com"
         type="email"
         id="Email"
         name="email"
         class="p-2 mt-1 w-full border rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
       />
+      <div
+        *ngIf="form.get('email')?.invalid && form.get('email')?.value !== ''"
+        class="col-span-6 text-sm gap-2 flex flex-col"
+      >
+        <p>
+          <span class="text-red-600 mr-1">*</span>
+          Please enter a valid email address
+        </p>
+      </div>
     </div>
 
     <div class="col-span-6 sm:col-span-3">
@@ -99,6 +155,13 @@
       </label>
 
       <input-password-toggle
+        [ngClass]="{
+          'border-red-700':
+            (form.get('password')?.invalid &&
+              form.get('password')?.value !== '') ||
+            this.form.hasError('password no match')
+        }"
+        formControlName="password"
         type="password"
         id="Password"
         name="password"
@@ -116,6 +179,13 @@
       </label>
 
       <input-password-toggle
+        [ngClass]="{
+          'border-red-700':
+            (form.get('password_confirmation')?.invalid &&
+              form.get('password_confirmation')?.value !== '') ||
+            this.form.hasError('password no match')
+        }"
+        formControlName="password_confirmation"
         type="password"
         id="PasswordConfirmation"
         name="password_confirmation"
@@ -123,10 +193,22 @@
         classInput="p-2 w-full outline-none bg-white text-sm text-gray-700 "
       />
     </div>
+    <div
+      *ngIf="this.form.invalid"
+      class="col-span-6 text-sm gap-2 flex flex-col"
+    >
+      <p *ngIf="this.form.hasError('password no match')">
+        <span class="text-red-600 mr-1">*</span>passwords do not match
+      </p>
+      <p *ngIf="this.form.hasError('empty') && this.form.touched">
+        <span class="text-red-600 mr-1">*</span>passwords is required
+      </p>
+    </div>
 
     <div class="col-span-6">
       <label for="MarketingAccept" class="flex gap-4">
         <input
+          formControlName="marketing_accept"
           type="checkbox"
           id="MarketingAccept"
           name="marketing_accept"

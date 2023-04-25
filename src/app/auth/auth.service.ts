@@ -10,7 +10,7 @@ export class AuthService {
     console.log(email, code);
     return true;
   }
-  sendEmail(email: string) {
+  async sendEmail(email: string):Promise<Boolean> {
     this.email = email;
     return true;
   }

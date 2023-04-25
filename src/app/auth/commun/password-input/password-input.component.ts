@@ -8,6 +8,7 @@ import { faEye,faEyeSlash } from '@fortawesome/free-solid-svg-icons';
     type="{{ type }}" 
     id="{{ id }}"
     name="{{ name }}"
+    placeholder="Password"
     class="{{ classInput }}"
     (change)="inputChange()" 
     [disabled]="disabled" 

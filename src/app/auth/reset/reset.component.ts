@@ -9,18 +9,9 @@ import {
 } from '@angular/forms';
 
 import { ValidatorFn } from '@angular/forms';
+import { passwordValidator } from '../commun/passwordValidator';
 
-export function passwordValidator(): ValidatorFn {
-  return (control: AbstractControl): {
-    [key: string]: { value: string };
-  } | null => {
-    if (!control.value?.password || !control.value?.confirmPassword)
-      return { empty: { value: control.value } };
-    const forbidden =
-      control.value?.password !== control.value?.confirmPassword;
-    return forbidden ? { 'password no match': { value: control.value } } : null;
-  };
-}
+
 
 @Component({
   selector: 'app-reset',
@@ -45,10 +36,13 @@ export class ResetComponent {
       password: new FormControl('', this.finalValidator),
       confirmPassword: new FormControl('', this.finalValidator),
     },
-    { validators: passwordValidator() }
+    { validators: passwordValidator('password','confirmPassword') }
   );
 
   constructor(private authService: AuthService, private router: Router) {
+    if(router.getCurrentNavigation()?.extractedUrl.queryParams?.['email']){
+      this.email=router.getCurrentNavigation()?.extractedUrl.queryParams?.['email'];
+    }
     if (router.getCurrentNavigation()?.extractedUrl.queryParams?.['input']) {
       const CurrentCode =
         router.getCurrentNavigation()?.extractedUrl.queryParams?.['input'];
@@ -89,3 +83,4 @@ export class ResetComponent {
     }
   }
 }
+
