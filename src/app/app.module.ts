@@ -3,16 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { HttpClientModule } from '@angular/common/http';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule,AuthModule],
+  declarations: [AppComponent, DashboardComponent],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, AuthModule],
   providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor() {
-  }
+  constructor() {}
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { passwordValidator } from '../commun/passwordValidator';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -16,21 +17,29 @@ formValidator = [
 
 
 form :FormGroup = new FormGroup({
-  first_name: new FormControl('', [...this.formValidator, Validators.pattern('[a-zA-Z ]*')]),
-  last_name: new FormControl('',[...this.formValidator, Validators.pattern('[a-zA-Z ]*')]),
+  firstName: new FormControl('', [...this.formValidator, Validators.pattern('[a-zA-Z ]*')]),
+  lastName: new FormControl('',[...this.formValidator, Validators.pattern('[a-zA-Z ]*')]),
   email: new FormControl('',[...this.formValidator, Validators.email]),
   password: new FormControl('',[...this.formValidator]),
   password_confirmation: new FormControl('',[...this.formValidator]),
-  marketing_accept: new FormControl(false),
+  marketingAccept: new FormControl(false),
 },passwordValidator('password','password_confirmation'))
 
-
+constructor(private authService: AuthService) { }
 
 onSubmit(){
   if(this.form.invalid){
     return;
   }
-    console.log(this.form.value);
+    this.authService.signUp(this.form.value).subscribe({
+      next: (data) => {
+        console.log(data);
+        alert("Sign up success");
+      },
+      error: (error) => {
+        this.form.setErrors({invalid: true});
+      }
+    })
 }
 
 

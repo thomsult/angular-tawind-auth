@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ForgetComponent } from './forget/forget.component';
 import { ResetComponent } from './reset/reset.component';
+import { SocialComponent } from './commun/social/social.component';
 const routes: Routes = [
   {
     path: 'login',
@@ -21,6 +22,17 @@ const routes: Routes = [
     path: 'reset',
     component:ResetComponent,
   },
+  {
+    path: 'google',
+    component:SocialComponent,
+    children: [
+      {
+        path: 'redirect',
+        component:SocialComponent,
+      }
+    ]
+  },
+
   {
     path: '',
     redirectTo: 'login',

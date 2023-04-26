@@ -23,75 +23,23 @@
     </h1>
 
     <p class="mt-4 leading-relaxed text-gray-500">
-      Enter code sent to your email address
+      A email has been sent to your email address. Please check your email
     </p>
   </div>
 
-  <form
+  <div
     *ngIf="!emailVerified"
     class="mt-8 grid grid-cols-6 gap-6"
-    [formGroup]="form"
   >
+  
     <div class="col-span-6 max-w-xs">
-      <label for="code" class="block text-sm font-medium text-gray-700">
-        Code
-      </label>
-      <div class="mt-1 flex gap-2 w-full">
-        <input
-          formControlName="0"
-          type="text"
-          name="code"
-          maxLength="1"
-          class="codeInput"
-          required
-        />
-        <input
-          formControlName="1"
-          type="text"
-          name="code"
-          maxLength="1"
-          class="codeInput"
-          required
-        />
-        <input
-          formControlName="2"
-          type="text"
-          name="code"
-          maxLength="1"
-          class="codeInput"
-          required
-        />
-        <input
-          formControlName="3"
-          type="text"
-          name="code"
-          maxLength="1"
-          class="codeInput"
-          required
-        />
-        <input
-          formControlName="4"
-          type="text"
-          name="code"
-          maxLength="1"
-          class="codeInput"
-          required
-        />
-        <input
-          formControlName="5"
-          type="text"
-          name="code"
-          maxLength="1"
-          class="codeInput"
-          required
-        />
-      </div>
-      <div
-        *ngIf="form.invalid && form.touched"
-        class="col-span-6 max-w-xs mt-4"
+      <a
+        routerLink="../forget/"
+        type="submit"
+        class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
       >
-        <p class="text-red-600">Invalid code</p>
-      </div>
+        Retour
+      </a>
       <div class="col-span-6 max-w-xs mt-4">
         <p class="mt-2 text-sm text-gray-500">
           Didn't receive the code?
@@ -105,19 +53,12 @@
       </div>
     </div>
     <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-      <button
-        type="submit"
-        (click)="onSubmitCode()"
-        class="inline-block mt-4 shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-      >
-        Continue
-      </button>
       <p class="mt-4 text-sm text-gray-500 sm:mt-0">
         Already have an account?
         <a routerLink="../login" class="text-gray-700 underline">Log in</a>.
       </p>
     </div>
-  </form>
+  </div>
   <form
     *ngIf="emailVerified"
     [formGroup]="finalForm"

@@ -9,6 +9,8 @@ import { AuthRouting } from './auth-routing.module';
 import { ResetComponent } from './reset/reset.component';
 import { PasswordInputComponent } from './commun/password-input/password-input.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SocialComponent } from './commun/social/social.component';
+import { StorageService } from './commun/localStorageUtils';
 
 @NgModule({
   declarations: [
@@ -18,8 +20,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ForgetComponent,
     ResetComponent,
     PasswordInputComponent,
+    SocialComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, AuthRouting, FormsModule,FontAwesomeModule],
+  providers: [StorageService],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    AuthRouting,
+    FormsModule,
+    FontAwesomeModule,
+  ],
   exports: [AuthComponent],
 })
 export class AuthModule {}

@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./forget.component.css'],
 })
 export class ForgetComponent {
-  email: string = '';
   constructor(private authService: AuthService, private router: Router) {}
   form: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -18,11 +17,15 @@ export class ForgetComponent {
     if (this.form.invalid) {
       return;
     }
-    this.authService.sendEmail(this.form.value.email).then((res) => {
-      if (res) {
-        this.form.reset();
-        this.router.navigate(['../reset',], { queryParams: { email: this.form.value.email } });
-      }
-    });
+    this.authService.sendResetPassword(this.form.value.email).subscribe({
+      next: (e) => {
+        const email = this.form.value.email;
+         this.form.reset();
+         this.router.navigate(['../auth/reset'], { queryParams: { email: email } });
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    })
   }
 }

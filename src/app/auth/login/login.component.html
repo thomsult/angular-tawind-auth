@@ -29,8 +29,8 @@
 
   <div class="flex justify-center w-full pt-4">
     <a
-      href="#"
-      class="text-white w-full bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center justify-center inline-flex items-center dark:focus:ring-[#4285F4]/55 "
+     [routerLink]="['../google']"
+      class="text-white cursor-pointer w-full bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center justify-center inline-flex items-center dark:focus:ring-[#4285F4]/55 "
     >
       <svg
         class="mr-2 -ml-1 w-4 h-4"
@@ -72,7 +72,8 @@
         id="Email"
         name="email"
         class="p-2 mt-1 w-full border rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-      />
+        [ngClass]="{ 'border-red-500': form.hasError('invalid') }"
+        />
     </div>
 
     <div class="col-span-6">
@@ -87,8 +88,10 @@
         name="password"
         class="inline-flex rounded-md border overflow-hidden mt-1 w-full shadow-sm"
         classInput="p-2 w-full outline-none bg-white text-sm text-gray-700 "
+        [ngClass]="{ 'border-red-500': form.hasError('invalid') }"
       />
     </div>
+
 
     <div class="col-span-6">
       <label for="auto_login" class="flex gap-4">
@@ -105,7 +108,11 @@
         </span>
       </label>
     </div>
-
+      <div class="col-span-6">
+        <p *ngIf="form.hasError('invalid')" class="mt-4 text-sm text-red-500 sm:mt-0">
+          Password or email incorrect
+        </p>
+      </div>
     <div class="col-span-6">
       <p class="mt-4 text-xs text-gray-500 sm:mt-0">
         Forgot your password?

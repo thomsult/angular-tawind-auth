@@ -67,19 +67,19 @@
       <input
         [ngClass]="{
           'border-red-700':
-            form.get('first_name')?.invalid &&
-            form.get('first_name')?.value !== ''
+            form.get('firstName')?.invalid &&
+            form.get('firstName')?.value !== ''
         }"
-        formControlName="first_name"
+        formControlName="firstName"
         placeholder="John"
         type="text"
         id="FirstName"
-        name="first_name"
+        name="firstName"
         class="p-2 border-gray-200 border mt-1 w-full rounded-md text-sm text-gray-700 shadow-sm"
       />
       <div
       *ngIf="
-        form.get('first_name')?.invalid && form.get('first_name')?.value !== ''
+        form.get('firstName')?.invalid && form.get('firstName')?.value !== ''
       "
       class="col-span-6 text-sm gap-2 flex flex-col"
     >
@@ -96,21 +96,21 @@
       </label>
 
       <input
-        formControlName="last_name"
+        formControlName="lastName"
         placeholder="Doe"
         [ngClass]="{
           'border-red-700':
-            form.get('last_name')?.invalid &&
-            form.get('last_name')?.value !== ''
+            form.get('lastName')?.invalid &&
+            form.get('lastName')?.value !== ''
         }"
         type="text"
         id="LastName"
-        name="last_name"
+        name="lastName"
         class="p-2 mt-1 w-full rounded-md border border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
       />
       <div
         *ngIf="
-          form.get('last_name')?.invalid && form.get('last_name')?.value !== ''
+          form.get('lastName')?.invalid && form.get('lastName')?.value !== ''
         "
         class="col-span-6 text-sm gap-2 flex flex-col"
       >
@@ -208,10 +208,10 @@
     <div class="col-span-6">
       <label for="MarketingAccept" class="flex gap-4">
         <input
-          formControlName="marketing_accept"
+          formControlName="marketingAccept"
           type="checkbox"
           id="MarketingAccept"
-          name="marketing_accept"
+          name="marketingAccept"
           class="h-5 w-5 rounded-md border-gray-200 bg-white shadow-sm"
         />
 

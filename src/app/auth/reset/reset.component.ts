@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormGroup,
   FormControl,
@@ -20,15 +20,8 @@ import { passwordValidator } from '../commun/passwordValidator';
 })
 export class ResetComponent {
   email: string = '';
+  code: string = '';
   emailVerified: boolean = false;
-  form: FormGroup = new FormGroup({
-    '0': new FormControl(''),
-    '1': new FormControl(''),
-    '2': new FormControl(''),
-    '3': new FormControl(''),
-    '4': new FormControl(''),
-    '5': new FormControl(''),
-  });
   finalValidator = [Validators.required, Validators.minLength(6)];
   finalForm: FormGroup = new FormGroup(
     {
@@ -39,50 +32,51 @@ export class ResetComponent {
     { validators: passwordValidator('password','confirmPassword') }
   );
 
-  constructor(private authService: AuthService, private router: Router) {
-    if(router.getCurrentNavigation()?.extractedUrl.queryParams?.['email']){
-      this.email=router.getCurrentNavigation()?.extractedUrl.queryParams?.['email'];
-    }
-    if (router.getCurrentNavigation()?.extractedUrl.queryParams?.['input']) {
-      const CurrentCode =
-        router.getCurrentNavigation()?.extractedUrl.queryParams?.['input'];
+  constructor(private authService: AuthService, private router: ActivatedRoute) {
+    router.queryParams.subscribe((params) => {
+      const CurrentCode = params['input'];
+      this.email = params['email'];
+      if(!CurrentCode) return;
       const [email, code] = window.atob(CurrentCode).split(';');
-      code.split('').forEach((value: string, index: number) => {
-        this.form.controls[index].setValue(value);
-      });
-      this.email = email;
-    }
+      if (email && code) {
+        this.email = email;
+        this.code = code; 
+      }
+    });
   }
 
-  onSubmitCode() {
-    console.log(this.form.valid, this.email);
-    if (this.form.valid && this.email) {
-      const code = Object.values(this.form.value).join('');
-      console.log(code, this.email);
-      this.authService.forgetPassword(this.email, code).then((res) => {
-        if (res) {
-          this.emailVerified = true;
-          this.finalForm.controls['email'].setValue(this.email);
-        }
-      });
-    } 
-  }
   onFinalSubmit() {
     if (this.finalForm.valid) {
-      this.authService.resetPassword(this.finalForm.value);
+      this.authService.resetPassword({
+        ...this.finalForm.value,
+        decryptedCode: this.code,
+      }).subscribe({
+        next: (res) => {
+          if (res) {
+            console.log(res);
+
+          }
+        }
+      })
     }
   }
   resend() {
-    this.email&&this.authService.sendEmail(this.email);
-    console.log('email sent');
+    this.email&&this.authService.sendResetPassword(this.email).subscribe({
+      next: (e) => {
+        console.log('email sent',this.email);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    })
+    
   }
   ngOnInit(): void {
-    if (!this.authService.email && this.email === '') {
-      this.router.navigate(['/forget']);
+    if(this.code){
+      this.emailVerified = true;
+      this.finalForm.controls['email'].setValue(this.email);
     }
-    if (this.authService.email && this.email === '') {
-      this.email = this.authService.email;
-    }
+
   }
 }
 
